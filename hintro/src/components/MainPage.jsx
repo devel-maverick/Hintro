@@ -3,6 +3,7 @@ import Step1Icon from "./icons/Step1Icon"
 import Step2Icon from "./icons/Step2Icon"
 import Step3Icon from "./icons/Step3Icon"
 import Step4Icon from "./icons/Step4Icon"
+import RecentCallsIcon from "./icons/RecentCallsIcon"
 
 function MainPage({v1=0,v2=0,v3=0,v4=0}) {
   return (
@@ -61,7 +62,20 @@ function MainPage({v1=0,v2=0,v3=0,v4=0}) {
                 </div>
             </div>
         </div>
-        <div>
+        <div className="mt-10 w-full flex flex-col items-center">
+            <h3 className="font-bold text-[15px] text-black mb-3">Recent calls</h3>
+            <div className="bg-white border border-gray-200 rounded-[16px] flex flex-col items-center justify-center py-8 px-6 min-h-[180px] w-full max-w-[750px] mx-auto">
+                <div className="mb-3">
+                    <RecentCallsIcon />
+                </div>
+                <h3 className="font-bold text-[15px] text-black mb-1">No Recent Calls</h3>
+                <p className="text-[13px] text-gray-500 text-center max-w-[420px] leading-relaxed mb-4">
+                    Connect your Google Calendar to see upcoming meetings, get reminders, and join calls directly from Hintro.
+                </p>
+                <button className="px-4 py-1.5 border border-gray-200 rounded-md text-[13px] font-medium text-black hover:bg-gray-50 transition-colors bg-white shadow-sm">
+                    Start a Call
+                </button>
+            </div>
         </div>
     </div>
     </>
