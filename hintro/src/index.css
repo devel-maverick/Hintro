@@ -2,6 +2,10 @@
 
 @theme {
   --color-primary: #6686FF;
+  --color-secondary: #FFE1E1;
+  --color-tertiary: #E1FCFF;
+  --color-fourth: #E1FFE4;
+  --color-fifth: #EBE1FF;
 }
 
 body {

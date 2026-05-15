@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import avatar from '../assets/avatar.png'
 import { ChevronDown, LogOut } from 'lucide-react'
 
-function ProfileDropdown({user='USER2'}) {
+function ProfileDropdown({ user = 'USER2' }) {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <div className='relative'>
@@ -14,7 +14,7 @@ function ProfileDropdown({user='USER2'}) {
       </div>
       {isOpen && (
         <div className='absolute -right-7 top-12 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-[130px] z-50'>
-          <button className='flex items-center justify-center w-full py-1 mb-1 rounded-lg hover:bg-gray-50 text-gray-800 cursor-pointer transition-colors' onClick={()=>setIsOpen(false)}>
+          <button className='flex items-center justify-center w-full py-1 mb-1 rounded-lg hover:bg-gray-50 text-gray-800 cursor-pointer transition-colors' onClick={() => setIsOpen(false)}>
             <h2 className='text-base font-bold text-black/80'>{user}</h2>
           </button>
           <button
