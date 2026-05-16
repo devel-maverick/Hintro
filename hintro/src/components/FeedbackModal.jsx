@@ -49,7 +49,7 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
         className="absolute inset-0 bg-black/20"
         onClick={handleClose}
       />
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[620px] min-h-[400px] flex flex-col mx-4 overflow-hidden animate-modal-in">
+      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[620px] min-h-[340px] md:min-h-[400px] flex flex-col mx-4 overflow-hidden animate-modal-in">
 
         {submitted ? (
           <div className="flex flex-col h-full flex-1">
@@ -75,13 +75,13 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
           </div>
         ) : (
           <div className="flex flex-col h-full flex-1">
-            <div className="flex items-start justify-between px-10 pt-10 pb-4">
+            <div className="flex items-start justify-between px-6 md:px-10 pt-6 md:pt-10 pb-4">
               <div>
                 <h2 className="text-[24px] font-medium text-gray-900 tracking-tight">Give Feedback</h2>
                 <p className="text-[15px] text-gray-400 mt-1">Describe your experience using Hintro...</p>
               </div>
             </div>
-            <div className="px-10 pb-6 flex flex-col gap-6 flex-1 justify-center">
+            <div className="px-6 md:px-10 pb-6 flex flex-col gap-6 flex-1 justify-center">
               <div className="flex items-center justify-center gap-5">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -116,7 +116,7 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
                 </div>
               )}
             </div>
-            <div className="flex items-center justify-between px-10 pb-10 mt-auto">
+            <div className="flex items-center justify-between px-6 md:px-10 pb-6 md:pb-10 mt-auto">
               <button
                 onClick={handleClose}
                 className="flex items-center gap-2 px-5 py-2 border border-gray-500 rounded-md text-[14px] font-medium text-black hover:bg-gray-50 transition-colors"

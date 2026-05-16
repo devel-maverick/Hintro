@@ -8,7 +8,7 @@ const LogoutModal = ({ canOpen, onClose, onConfirm }) => {
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/20">
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 w-[450px] min-h-[260px] p-6 flex flex-col">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-200 w-[90vw] max-w-[450px] min-h-[260px] p-6 flex flex-col mx-4">
         <h2 className="text-[20px] font-semibold text-black mb-1">Leaving already?</h2>
         <div className="w-full h-px bg-gray-200 mb-5"></div>
         <p className="text-sm text-black/80 font-medium leading-relaxed pr-4">
@@ -34,7 +34,7 @@ const LogoutModal = ({ canOpen, onClose, onConfirm }) => {
   )
 }
 
-function ProfileDropdown() {
+function ProfileDropdown({ isMobile = false }) {
   const [isOpen, setIsOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { userId, switchUser, logout } = authStore()

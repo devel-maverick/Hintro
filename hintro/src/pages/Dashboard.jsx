@@ -10,6 +10,7 @@ const LS_KEY = 'hintro_feedbacks'
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const { fetchStats, fetchProfile, userId } = authStore()
   const [stats, setStats] = useState({ v1: '...', v2: '...', v3: '...', v4: '...' })
   const [userName, setUserName] = useState('there')
@@ -24,8 +25,6 @@ function Dashboard() {
       return []
     }
   })
-
-  // Persist feedbacks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(feedbacks))
   }, [feedbacks])
@@ -87,11 +86,13 @@ function Dashboard() {
     <div className="min-h-screen flex">
       <LeftNavbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onOpenFeedbackModal={() => setIsFeedbackModalOpen(true)}
+        setActiveTab={(tab) => { setActiveTab(tab); setIsSidebarOpen(false); }}
+        onOpenFeedbackModal={() => { setIsFeedbackModalOpen(true); setIsSidebarOpen(false); }}
+        isSidebarOpen={isSidebarOpen}
+        onCloseSidebar={() => setIsSidebarOpen(false)}
       />
       <div className='flex-1 flex flex-col h-screen overflow-hidden'>
-        <TopNavbar activeTab={activeTab} />
+        <TopNavbar activeTab={activeTab} onOpenSidebar={() => setIsSidebarOpen(true)} />
         {activeTab === 'Feedback History' ? (
           <FeedbackHistory
             feedbacks={feedbacks}

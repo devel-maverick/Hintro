@@ -21,7 +21,7 @@ function FeedbackHistory({ feedbacks = [], onGiveFeedbackClick }) {
       </div>
 
       <div className='w-full border border-gray-200 rounded-xl bg-white overflow-hidden'>
-        <div className='grid grid-cols-[1.5fr_1fr_2.5fr_1.5fr_1fr] bg-gray-50/80 border-b border-gray-200 px-6 py-4'>
+        <div className='hidden md:grid grid-cols-[1.5fr_1fr_2.5fr_1.5fr_1fr] bg-gray-50/80 border-b border-gray-200 px-6 py-4'>
           <div className='text-xs font-semibold text-gray-400 uppercase tracking-wide'>Title</div>
           <div className='text-xs font-semibold text-gray-400 uppercase tracking-wide'>Rating</div>
           <div className='text-xs font-semibold text-gray-400 uppercase tracking-wide'>Description</div>
@@ -31,31 +31,50 @@ function FeedbackHistory({ feedbacks = [], onGiveFeedbackClick }) {
         {hasFeedbacks ? (
           <div className='flex flex-col'>
             {feedbacks.map((item, index) => (
-              <div
-                key={item.id}
-                className={`grid grid-cols-[1.5fr_1fr_2.5fr_1.5fr_1fr] px-6 py-4 items-center hover:bg-gray-50/50 transition-colors ${
-                  index !== feedbacks.length - 1 ? 'border-b border-gray-100' : ''
-                }`}
-              >
-                <div className='text-sm font-medium text-gray-800'>{item.title}</div>
-
-                <div className='flex items-center gap-0.5'>
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star
-                      key={s}
-                      size={13}
-                      className={
-                        s <= getStarCount(item.rating)
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'fill-gray-200 text-gray-200'
-                      }
-                    />
-                  ))}
+              <div key={item.id}>
+                <div
+                  className={`hidden md:grid grid-cols-[1.5fr_1fr_2.5fr_1.5fr_1fr] px-6 py-4 items-center hover:bg-gray-50/50 transition-colors ${
+                    index !== feedbacks.length - 1 ? 'border-b border-gray-100' : ''
+                  }`}
+                >
+                  <div className='text-sm font-medium text-gray-800'>{item.title}</div>
+                  <div className='flex items-center gap-0.5'>
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star
+                        key={s}
+                        size={13}
+                        className={
+                          s <= getStarCount(item.rating)
+                            ? 'fill-amber-400 text-amber-400'
+                            : 'fill-gray-200 text-gray-200'
+                        }
+                      />
+                    ))}
+                  </div>
+                  <div className='text-sm text-gray-600 pr-4'>{truncate(item.description)}</div>
+                  <div className='text-sm text-gray-500'>{item.date}</div>
+                  <div className='text-sm text-gray-500'>{item.time}</div>
                 </div>
-
-                <div className='text-sm text-gray-600 pr-4'>{truncate(item.description)}</div>
-                <div className='text-sm text-gray-500'>{item.date}</div>
-                <div className='text-sm text-gray-500'>{item.time}</div>
+                <div className={`md:hidden px-4 py-4 ${index !== feedbacks.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                  <div className='flex items-center justify-between mb-2'>
+                    <span className='text-sm font-medium text-gray-800'>{item.title}</span>
+                    <div className='flex items-center gap-0.5'>
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star
+                          key={s}
+                          size={12}
+                          className={
+                            s <= getStarCount(item.rating)
+                              ? 'fill-amber-400 text-amber-400'
+                              : 'fill-gray-200 text-gray-200'
+                          }
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <p className='text-xs text-gray-500 mb-1'>{truncate(item.description, 60)}</p>
+                  <p className='text-xs text-gray-400'>{item.date} · {item.time}</p>
+                </div>
               </div>
             ))}
           </div>
