@@ -1,19 +1,86 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Step1Icon from "./icons/Step1Icon"
 import Step2Icon from "./icons/Step2Icon"
 import Step3Icon from "./icons/Step3Icon"
 import Step4Icon from "./icons/Step4Icon"
 import RecentCallsIcon from "./icons/RecentCallsIcon"
+import { CallAvatarsIcon } from "./icons/CallAvatarsIcon"
+import { authStore } from '../store/authStore'
 
-function MainPage({v1=0,v2=0,v3=0,v4=0}) {
+function MainPage({v1,v2,v3,v4,userName, userId}) {
+  const { fetchCalls } = authStore()
+  const [recentCalls, setRecentCalls] = useState([])
+
+  useEffect(() => {
+    let isActive = true;
+    const loadCalls = async () => {
+      try {
+        const data = await fetchCalls(10);
+        if (isActive && data?.callSessions) {
+          setRecentCalls(data.callSessions);
+        }
+      } catch (error) {
+        console.error("Error fetching calls:", error);
+      }
+    };
+    loadCalls();
+    return () => { isActive = false; };
+  }, [fetchCalls, userId]);
+
+  const groupCallsByDate = (calls) => {
+    const groups = {};
+    calls.forEach(call => {
+      const dateObj = new Date(call.started_at);
+      const dateKey = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      const daySuffix = (d) => {
+        if (d > 3 && d < 21) return 'th';
+        switch (d % 10) {
+          case 1:  return "st";
+          case 2:  return "nd";
+          case 3:  return "rd";
+          default: return "th";
+        }
+      };
+      const day = dateObj.getDate();
+      const formattedDate = `${dateObj.toLocaleDateString('en-US', { month: 'long' })} ${day}${daySuffix(day)}`;
+
+      if (!groups[formattedDate]) groups[formattedDate] = [];
+      groups[formattedDate].push(call);
+    });
+    return groups;
+  };
+
+  const groupedCalls = groupCallsByDate(recentCalls);
+
+  const formatTime = (isoString) => {
+    return new Date(isoString).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+  };
+
+  const formatRelativeTime = (isoString) => {
+    if (!isoString) return '-';
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return '-';
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const diffInDays = Math.floor((today - targetDate) / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return 'Yesterday';
+    if (diffInDays < 0) return '-';
+    return `${diffInDays} days ago`;
+  };
+
+  const displayV4 = recentCalls.length > 0 ? formatRelativeTime(recentCalls[0].started_at) : v4;
+
   return (
     <>
-    <div>
+    <div className="overflow-y-auto h-full pb-10">
         <div className="flex flex-col ml-20 mt-6 mr-25">
             <div className='flex items-center justify-between gap-6'>
                 <div className="flex flex-col gap-0">
                     <h1 className="text-[24px] font-semibold text-black">
-                        Hi, Om 👋 Welcome to Hintro
+                        Hi, {userName || 'there'} 👋 Welcome to Hintro
                     </h1>
                     <p className="text-[15px] text-black/70 font-normal">
                         Ready to make your next call smarter ?
@@ -57,25 +124,57 @@ function MainPage({v1=0,v2=0,v3=0,v4=0}) {
                     </div>
                     <div className="flex flex-col justify-center">
                         <h3 className="text-[15px] font-medium text-black mb-0.5">Last Session</h3>
-                        <p className="text-[20px] font-bold text-gray-900 leading-none">{v4}</p>
+                        <p className="text-[20px] font-bold text-gray-900 leading-none">{displayV4}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div className="mt-10 w-full flex flex-col items-center">
             <h3 className="font-bold text-[15px] text-black mb-3">Recent calls</h3>
-            <div className="bg-white border border-gray-200 rounded-[16px] flex flex-col items-center justify-center py-8 px-6 min-h-[180px] w-full max-w-[750px] mx-auto">
-                <div className="mb-3">
-                    <RecentCallsIcon />
+            {recentCalls.length > 0 ? (
+                <div className="w-full max-w-[750px] mx-auto flex flex-col gap-6 mb-10">
+                    {Object.entries(groupedCalls).map(([dateLabel, calls]) => (
+                        <div key={dateLabel} className="flex flex-col gap-3">
+                            <p className="text-[13px] font-medium text-gray-400">{dateLabel}</p>
+                            {calls.map((call, idx) => (
+                                <div key={call._id || idx} className="flex items-center justify-between py-2">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-lg bg-[#8A2BE2] flex items-center justify-center text-white text-lg font-medium">
+                                            {call.client ? call.client.charAt(0).toUpperCase() : 'K'}
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <h4 className="text-[15px] font-medium text-gray-900">{call.description || 'Design Call'}</h4>
+                                            <div className="flex mt-1">
+                                                <CallAvatarsIcon />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-6">
+                                        <span className="text-[13px] font-medium text-gray-900">{formatTime(call.started_at)}</span>
+                                        <button className="text-gray-400 hover:text-gray-600">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
-                <h3 className="font-bold text-[15px] text-black mb-1">No Recent Calls</h3>
-                <p className="text-[13px] text-gray-500 text-center max-w-[420px] leading-relaxed mb-4">
-                    Connect your Google Calendar to see upcoming meetings, get reminders, and join calls directly from Hintro.
-                </p>
-                <button className="px-4 py-1.5 border border-gray-200 rounded-md text-[13px] font-medium text-black hover:bg-gray-50 transition-colors bg-white shadow-sm">
-                    Start a Call
-                </button>
-            </div>
+            ) : (
+                <div className="bg-white border border-gray-200 rounded-[16px] flex flex-col items-center justify-center py-8 px-6 min-h-[180px] w-full max-w-[750px] mx-auto">
+                    <div className="mb-3">
+                        <RecentCallsIcon />
+                    </div>
+                    <h3 className="font-bold text-[15px] text-black mb-1">No Recent Calls</h3>
+                    <p className="text-[13px] text-gray-500 text-center max-w-[420px] leading-relaxed mb-4">
+                        Connect your Google Calendar to see upcoming meetings, get reminders, and join calls directly from Hintro.
+                    </p>
+                    <button className="px-4 py-1.5 border border-gray-200 rounded-md text-[13px] font-medium text-black hover:bg-gray-50 transition-colors bg-white shadow-sm">
+                        Start a Call
+                    </button>
+                </div>
+            )}
         </div>
     </div>
     </>

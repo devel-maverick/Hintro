@@ -9,8 +9,8 @@ function App() {
     <div>
       <BrowserRouter>
           <Routes>
-            {/* <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login/>}/> */}
-            <Route path="/" element={<Dashboard/>}/>
+            <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login/>}/>
+            <Route path="/" element={isLoggedIn ? <Dashboard/> : <Navigate to="/login"/>}/>
           </Routes>
       </BrowserRouter>
     </div>
@@ -19,4 +19,3 @@ function App() {
 export default App
 
 
-// isLoggedIn ? <Dashboard/> : <Navigate to="/" 
