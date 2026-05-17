@@ -76,32 +76,6 @@ src/
     avatar.png          - Profile avatar image
 ```
 
-## Screenshots
-
-### Desktop
-
-| Login | Dashboard (Empty - u1) | Dashboard (With Data - u2) |
-|-------|------------------------|---------------------------|
-| <img width="571" height="501" alt="Screenshot 2026-05-17 at 10 07 24 AM" src="https://github.com/user-attachments/assets/07ffbf32-16a6-429c-9ffb-6d47dadae07c" />
- | <img width="1253" height="857" alt="Screenshot 2026-05-17 at 10 07 48 AM" src="https://github.com/user-attachments/assets/5e83f9e6-222c-4c5c-b0b0-fcc523584654" />
- | <img width="1252" height="856" alt="Screenshot 2026-05-17 at 10 08 07 AM" src="https://github.com/user-attachments/assets/0af190ff-f4f4-47f6-8d55-4e6021d98b82" />
- |
-
-| Feedback Modal | Feedback History |
-|----------------|-----------------|
-| <img width="1253" height="858" alt="Screenshot 2026-05-17 at 10 08 43 AM" src="https://github.com/user-attachments/assets/4b27568d-aefd-4276-ab4d-07b55763891d" />
- | <img width="1254" height="860" alt="Screenshot 2026-05-17 at 10 09 04 AM" src="https://github.com/user-attachments/assets/c9115829-0585-433f-a668-eae4a80848ef" />
- |
-
-### Mobile
-
-| Dashboard | Navigation | Feedback History |
-|-----------|-----------|-----------------|
-| <img width="377" height="664" alt="Screenshot 2026-05-17 at 10 09 31 AM" src="https://github.com/user-attachments/assets/3b644a22-00d8-4ded-90c7-2ca32844c683" />
- | <img width="376" height="665" alt="Screenshot 2026-05-17 at 10 09 51 AM" src="https://github.com/user-attachments/assets/12fb9454-667a-4005-b414-eaadb80872f0" />
- | <img width="374" height="664" alt="Screenshot 2026-05-17 at 10 16 20 AM" src="https://github.com/user-attachments/assets/5e51987d-644b-43e9-a012-ecbf8d1aafff" /> |
-
-
 ## How It Works
 
 1. Open the app - you land on the Login page.
