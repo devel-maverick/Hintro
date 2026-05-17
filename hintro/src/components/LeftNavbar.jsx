@@ -33,7 +33,7 @@ function LeftNavbar({ activeTab, setActiveTab, onOpenFeedbackModal, isSidebarOpe
         <h1 className='text-[22px] font-medium text-gray-900'>Hintro</h1>
         <div className='w-5 md:hidden' />
       </div>
-      <div className='flex flex-col flex-1'>
+      <div className='flex flex-col flex-1 overflow-y-auto'>
         <div className='w-full flex flex-col gap-1.5 py-5 px-4'>
           {navItems.map(({ icon: Icon, label, disabled, hasAlert }) => (
             <div
@@ -56,7 +56,7 @@ function LeftNavbar({ activeTab, setActiveTab, onOpenFeedbackModal, isSidebarOpe
             </div>
           ))}
         </div>
-        <div className='mt-75 px-4 pb-15 border-t border-gray-200 pt-7'>
+        <div className='mt-auto px-4 pb-6 border-t border-gray-200 pt-5'>
           <div className='flex flex-col gap-3'>
             <div
               onClick={() => setActiveTab('Feedback History')}
