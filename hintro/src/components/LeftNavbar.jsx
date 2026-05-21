@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AlertCircle, X } from 'lucide-react'
 import DashboardIcon from '../components/icons/DashboardIcon'
 import CallInsightsIcon from '../components/icons/CallInsightsIcon'

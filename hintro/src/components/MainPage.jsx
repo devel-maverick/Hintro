@@ -31,7 +31,6 @@ function MainPage({v1,v2,v3,v4,userName, userId}) {
     const groups = {};
     calls.forEach(call => {
       const dateObj = new Date(call.started_at);
-      const dateKey = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
       const daySuffix = (d) => {
         if (d > 3 && d < 21) return 'th';
         switch (d % 10) {
@@ -74,7 +73,6 @@ function MainPage({v1,v2,v3,v4,userName, userId}) {
   const displayV4 = recentCalls.length > 0 ? formatRelativeTime(recentCalls[0].started_at) : v4;
 
   return (
-    <>
     <div className="overflow-y-auto h-full pb-10">
         <div className="flex flex-col mx-4 md:ml-20 mt-6 md:mr-25">
             <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-6'>
@@ -177,7 +175,6 @@ function MainPage({v1,v2,v3,v4,userName, userId}) {
             )}
         </div>
     </div>
-    </>
   )
 }
 export default MainPage

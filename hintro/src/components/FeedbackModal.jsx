@@ -49,7 +49,7 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
         className="absolute inset-0 bg-black/20"
         onClick={handleClose}
       />
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[620px] min-h-[340px] md:min-h-[400px] flex flex-col mx-4 overflow-hidden animate-modal-in">
+      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[620px] min-h-[340px] md:min-h-[400px] flex flex-col mx-4 overflow-hidden">
 
         {submitted ? (
           <div className="flex flex-col h-full flex-1">
@@ -104,7 +104,7 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
               </div>
 
               {rating > 0 && (
-                <div className="flex flex-col animate-fade-in mt-2">
+                <div className="flex flex-col mt-2">
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -140,22 +140,7 @@ function FeedbackModal({ isOpen, onClose, onSubmit }) {
         )}
       </div>
 
-      <style>{`
-        @keyframes modal-in {
-          from { opacity: 0; transform: scale(0.95) translateY(8px); }
-          to   { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .animate-modal-in {
-          animation: modal-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(-6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.18s ease both;
-        }
-      `}</style>
+
     </div>
   )
 }

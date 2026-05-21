@@ -8,13 +8,6 @@ export const authStore = create(persist((set, get) => ({
       switchUser: (id) => set({ userId: id }),
       login: (id) => set({ isLoggedIn: true, userId: id }),
       logout: () => set({ isLoggedIn: false, userId: 'u1' }),
-      fetchDashboard: async () => {
-        const { userId } = get()
-        const res = await axiosInstance.get('/api/auth/dashboard', {
-          headers: { 'x-user-id': userId }
-        })
-        return res.data
-      },
 
       fetchStats: async () => {
         const { userId } = get()
