@@ -6,6 +6,7 @@ import Step4Icon from "./icons/Step4Icon"
 import RecentCallsIcon from "./icons/RecentCallsIcon"
 import { CallAvatarsIcon } from "./icons/CallAvatarsIcon"
 import { authStore } from '../store/authStore'
+import { format, differenceInCalendarDays } from 'date-fns'
 
 function MainPage({v1,v2,v3,v4,userName, userId}) {
   const { fetchCalls } = authStore()
@@ -27,47 +28,26 @@ function MainPage({v1,v2,v3,v4,userName, userId}) {
     return () => { isActive = false; };
   }, [fetchCalls, userId]);
 
-  const groupCallsByDate = (calls) => {
-    const groups = {};
-    calls.forEach(call => {
-      const dateObj = new Date(call.started_at);
-      const daySuffix = (d) => {
-        if (d > 3 && d < 21) return 'th';
-        switch (d % 10) {
-          case 1:  return "st";
-          case 2:  return "nd";
-          case 3:  return "rd";
-          default: return "th";
-        }
-      };
-      const day = dateObj.getDate();
-      const formattedDate = `${dateObj.toLocaleDateString('en-US', { month: 'long' })} ${day}${daySuffix(day)}`;
-
-      if (!groups[formattedDate]) groups[formattedDate] = [];
-      groups[formattedDate].push(call);
-    });
-    return groups;
-  };
+  const groupCallsByDate = (calls) =>
+    calls.reduce((groups, call) => {
+      const key = format(new Date(call.started_at), 'MMMM do');
+      (groups[key] ||= []).push(call);
+      return groups;
+    }, {});
 
   const groupedCalls = groupCallsByDate(recentCalls);
 
-  const formatTime = (isoString) => {
-    return new Date(isoString).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
-  };
+  const formatTime = (time) => format(new Date(time), 'h:mm a').toLowerCase();
 
-  const formatRelativeTime = (isoString) => {
-    if (!isoString) return '-';
-    const date = new Date(isoString);
-    if (isNaN(date.getTime())) return '-';
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const diffInDays = Math.floor((today - targetDate) / (1000 * 60 * 60 * 24));
-    
-    if (diffInDays === 0) return 'Today';
-    if (diffInDays === 1) return 'Yesterday';
-    if (diffInDays < 0) return '-';
-    return `${diffInDays} days ago`;
+  const formatRelativeTime = (day) => {
+    if (!day) return '-';
+    const date = new Date(day);
+    if (isNaN(date)) return '-';
+    const days = differenceInCalendarDays(new Date(), date);
+    if (days < 0) return '-';
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Yesterday';
+    return `${days} days ago`;
   };
 
   const displayV4 = recentCalls.length > 0 ? formatRelativeTime(recentCalls[0].started_at) : v4;
